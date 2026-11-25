@@ -22,7 +22,7 @@ export const SECTIONS: { id: string; key: Key }[] = [
 function Logo() {
   return (
     <a href="#top" className="logo" onClick={(e) => (e.preventDefault(), scrollToId("top"))} aria-label="Walid Sayed">
-      <Mark size={30} id="nav" />
+      <Mark size={32} loop id="nav" />
       <span>walid.sayed</span>
     </a>
   );

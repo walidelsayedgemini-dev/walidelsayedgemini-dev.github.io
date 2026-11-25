@@ -2554,3 +2554,31 @@ html[data-theme="light"] .nav.solid .mark img { filter: none; }
 
 /* ===== Perf: skip rendering work for below-the-fold sections until they approach the viewport ===== */
 .services, .stack, .timeline, .about, .contact { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
+/* ===== Logo v6: modern W that materialises from nothing, spins once, dissolves (boot = once, nav = loop) ===== */
+.mk { --s: 40px; position: relative; display: inline-block; flex: none; width: calc(var(--s) * 1.3064); height: var(--s); perspective: calc(var(--s) * 5); line-height: 0; }
+.mk-rot { position: absolute; inset: 0; transform-style: preserve-3d; }
+.mk-rot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.mk-a { transform: translateZ(calc(var(--s) * -.07)); }
+.mk-b { transform: translateZ(calc(var(--s) * .07)); }
+.mk-line { fill: none; stroke: var(--mk4); stroke-width: .9; stroke-linejoin: miter; }
+.mk-fill { fill-opacity: 1; }
+/* preloader: draw outline -> fill -> one full turn */
+.mk-boot { animation: mkin 1.3s .1s cubic-bezier(.22,1,.36,1) both; filter: drop-shadow(0 0 28px rgba(212,176,106,.3)); }
+.mk-boot .mk-rot { animation: mkturn 2.5s cubic-bezier(.65,0,.35,1) both; }
+.mk-boot .mk-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: mkdraw 1s .15s cubic-bezier(.65,0,.35,1) forwards, mkfade 0.5s 1s forwards; }
+.mk-boot .mk-fill { fill-opacity: 0; animation: mkfillin .7s .75s ease forwards; }
+@keyframes mkin { from { opacity: 0; transform: scale(.55); filter: blur(10px); } to { opacity: 1; transform: none; filter: drop-shadow(0 0 28px rgba(212,176,106,.3)); } }
+@keyframes mkturn { 0%, 38% { transform: rotateY(0); } 86%, 100% { transform: rotateY(360deg); } }
+@keyframes mkdraw { to { stroke-dashoffset: 0; } }
+@keyframes mkfade { to { stroke-opacity: 0; } }
+@keyframes mkfillin { to { fill-opacity: 1; } }
+/* nav: appears, holds, spins out into nothing, returns */
+.mk-loop { animation: mkloopfade 11s infinite both; }
+.mk-loop .mk-rot { animation: mkloopturn 11s infinite both cubic-bezier(.55,0,.25,1); }
+@keyframes mkloopfade { 0% { opacity: 0; filter: blur(6px); } 8%, 84% { opacity: 1; filter: blur(0); } 93%, 99% { opacity: 0; filter: blur(6px); } 100% { opacity: 0; filter: blur(6px); } }
+@keyframes mkloopturn { 0% { transform: rotateY(-200deg) scale(.4); } 9% { transform: rotateY(0) scale(1); } 80% { transform: rotateY(0) scale(1); } 94%, 100% { transform: rotateY(220deg) scale(.4); } }
+@media (prefers-reduced-motion: reduce) { .mk-boot, .mk-boot .mk-rot, .mk-loop, .mk-loop .mk-rot { animation: none !important; opacity: 1; filter: none; } .mk-line { display: none; } .mk-fill { fill-opacity: 1 !important; } }
+.logo .mk { transition: filter .4s; }
+.logo:hover .mk { filter: drop-shadow(0 0 12px rgba(212,176,106,.45)); }
+.foot-id .mk { opacity: .92; }

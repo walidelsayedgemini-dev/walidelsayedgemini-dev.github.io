@@ -39,7 +39,7 @@ export function Boot({ onDone, onExit }: { onDone: () => void; onExit?: () => vo
     >
       <div className="boot-halo" />
       <div className="boot-stack">
-        <Mark size={150} animate id="boot" />
+        <Mark size={120} animate id="boot" />
         <motion.div className="boot-name" initial={{ opacity: 0, y: 14, letterSpacing: "0.5em" }} animate={{ opacity: 1, y: 0, letterSpacing: "0.34em" }} transition={{ duration: 1.1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}>
           WALID SAYED
         </motion.div>
