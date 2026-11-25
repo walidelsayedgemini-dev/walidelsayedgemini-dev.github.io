@@ -14,7 +14,7 @@ import { SideDots, useFx } from "./components/Extras";
 import { usePrefersReduced } from "./lib/util";
 
 function Shell() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const reduced = usePrefersReduced();
   const [booted, setBooted] = useState(() => reduced || sessionStorage.getItem("booted") === "1");
   useFx();
@@ -68,6 +68,9 @@ function Shell() {
       <ScrollProgress />
       {!booted && <Boot onDone={onBootDone} />}
       {booted && <SideDots />}
+      <a className="skip" href="#work" onClick={(e) => (e.preventDefault(), document.getElementById("work")?.scrollIntoView())}>
+        {lang === "ar" ? "تخطّي إلى المحتوى" : "Skip to content"}
+      </a>
       <Nav openPalette={() => setPalette(true)} />
       <main>
         <Hero ready={booted} />

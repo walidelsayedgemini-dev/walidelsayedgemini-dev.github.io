@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import markUrl from "../assets/mark.webp";
+import big from "../assets/mark.webp";
+import small from "../assets/mark-sm.webp";
 /* Interlocked W+S ligature with a star. Metallic gold artwork; `size` = height in px. */
 const RATIO = 1218 / 1118;
 export function Mark({ size = 40, animate = false }: { size?: number; animate?: boolean; id?: string }) {
   const w = Math.round(size * RATIO);
+  const markUrl = animate || size > 90 ? big : small;
   const mask = { WebkitMaskImage: `url(${markUrl})`, maskImage: `url(${markUrl})` } as const;
   return (
     <span className={`mark${animate ? " mark-anim" : ""}`} style={{ width: w, height: size }} aria-hidden>
