@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Lenis from "lenis";
 import { I18nProvider, useI18n } from "./i18n";
@@ -9,7 +9,7 @@ import { Work } from "./components/Work";
 import { Stack, Timeline } from "./components/Sections";
 import { About, Contact } from "./components/AboutContact";
 import { Journey } from "./components/Journey";
-import { Palette } from "./components/Palette";
+const Palette = lazy(() => import("./components/Palette").then((m) => ({ default: m.Palette })));
 import { SideDots, useFx } from "./components/Extras";
 import { usePrefersReduced } from "./lib/util";
 
@@ -17,6 +17,8 @@ function Shell() {
   const { t, lang } = useI18n();
   const reduced = usePrefersReduced();
   const [booted, setBooted] = useState(() => reduced || sessionStorage.getItem("booted") === "1");
+  const [heroReady, setHeroReady] = useState(booted);
+  const onBootExit = useCallback(() => setHeroReady(true), []);
   useFx();
   const [palette, setPalette] = useState(false);
   const [toast, setToast] = useState(false);
@@ -66,14 +68,14 @@ function Shell() {
       <div className="grain" aria-hidden />
       <Cursor />
       <ScrollProgress />
-      {!booted && <Boot onDone={onBootDone} />}
+      {!booted && <Boot onDone={onBootDone} onExit={onBootExit} />}
       {booted && <SideDots />}
       <a className="skip" href="#work" onClick={(e) => (e.preventDefault(), document.getElementById("work")?.scrollIntoView())}>
         {lang === "ar" ? "تخطّي إلى المحتوى" : "Skip to content"}
       </a>
       <Nav openPalette={() => setPalette(true)} />
       <main>
-        <Hero ready={booted} />
+        <Hero ready={heroReady} />
         <Stats />
         <Work />
         <Stack />
@@ -82,7 +84,11 @@ function Shell() {
         <Journey />
         <Contact onCopied={flash} />
       </main>
-      <AnimatePresence>{palette && <Palette onClose={() => setPalette(false)} onCopied={flash} />}</AnimatePresence>
+      <AnimatePresence>{palette && (
+          <Suspense fallback={null}>
+            <Palette onClose={() => setPalette(false)} onCopied={flash} />
+          </Suspense>
+        )}</AnimatePresence>
       <AnimatePresence>
         {toast && (
           <motion.div className="toast" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 20, opacity: 0 }}>

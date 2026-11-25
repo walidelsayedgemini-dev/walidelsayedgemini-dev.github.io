@@ -4,12 +4,12 @@ import { useI18n } from "../i18n";
 import { Mark } from "./Mark";
 
 /* ---------------- Preloader: the monogram draws itself ---------------- */
-export function Boot({ onDone }: { onDone: () => void }) {
+export function Boot({ onDone, onExit }: { onDone: () => void; onExit?: () => void }) {
   const { lang } = useI18n();
   const [exit, setExit] = useState(false);
   useEffect(() => {
     document.body.classList.add("locked");
-    const t = window.setTimeout(() => setExit(true), 3000);
+    const t = window.setTimeout(() => setExit(true), 2700);
     const skip = () => setExit(true);
     window.addEventListener("keydown", skip);
     window.addEventListener("pointerdown", skip);
@@ -21,12 +21,13 @@ export function Boot({ onDone }: { onDone: () => void }) {
   }, []);
   useEffect(() => {
     if (!exit) return;
+    onExit?.();
     const id = window.setTimeout(() => {
       document.body.classList.remove("locked");
       onDone();
     }, 900);
     return () => clearTimeout(id);
-  }, [exit, onDone]);
+  }, [exit, onDone, onExit]);
   return (
     <motion.div
       className="boot"

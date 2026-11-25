@@ -63,7 +63,7 @@ export function Stack() {
         </p>
       </div>
 
-      <div className="tech-wrap" aria-label={lang === "ar" ? "التقنيات المستخدمة" : "Technologies used"}>
+      <div className="tech-wrap" role="group" aria-label={lang === "ar" ? "التقنيات المستخدمة" : "Technologies used"}>
         <Marquee items={techCloud.slice(0, 14)} />
         <Marquee items={techCloud.slice(14).concat(techCloud.slice(0, 5))} reverse />
       </div>

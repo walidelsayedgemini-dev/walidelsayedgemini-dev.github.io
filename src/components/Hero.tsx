@@ -169,9 +169,11 @@ export function Hero({ ready }: { ready: boolean }) {
   const ring = `${num(gh.repos.length)} REPOS · ${num(gh.totalCommits)} COMMITS · ALEXANDRIA · ICT TEACHER · `;
   return (
     <section className="hero" id="top">
-      <Suspense fallback={null}>
-        <HeroCanvas />
-      </Suspense>
+      {ready && (
+        <Suspense fallback={null}>
+          <HeroCanvas />
+        </Suspense>
+      )}
       <div className="hero-fade" />
       <div className="wrap hero-grid" style={{ width: "100%" }}>
         <motion.div style={{ opacity: fade, y: lift }}>

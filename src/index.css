@@ -1496,7 +1496,7 @@ section {
   color: var(--amber);
   font-size: 0.78rem;
 }
-.pillar h4 {
+.pillar h3 {
   margin: 0.6rem 0 0.4rem;
   font-family: var(--f-display);
   font-size: 1.2rem;
@@ -2215,7 +2215,7 @@ body::before {
 .pillar:nth-child(2) { background: linear-gradient(160deg, rgba(212,176,106,.18), rgba(255,255,255,.03)); border-color: rgba(212,176,106,.35); }
 .pillar:nth-child(3) { background: linear-gradient(160deg, rgba(212,176,106,.18), rgba(255,255,255,.03)); border-color: rgba(212,176,106,.35); }
 .pillar:nth-child(2) .no { color: var(--cyan); } .pillar:nth-child(3) .no { color: var(--rose); } .pillar .no { color: var(--violet); }
-.pillar h4 { color: #fff; font-weight: 600; }
+.pillar h3 { color: #fff; font-weight: 600; }
 .pillar p { color: #ced5ec; }
 .pillar:hover { border-color: #fff; }
 

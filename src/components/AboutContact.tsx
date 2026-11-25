@@ -71,7 +71,7 @@ export function About() {
             {(["c1", "c2", "c3"] as const).map((k, i) => (
               <motion.div className="pillar" key={k} {...rise(0.1 * i)}>
                 <div className="no">0{i + 1}</div>
-                <h4>{t(`about.${k}` as "about.c1")}</h4>
+                <h3>{t(`about.${k}` as "about.c1")}</h3>
                 <p>{t(`about.${k}d` as "about.c1d")}</p>
               </motion.div>
             ))}

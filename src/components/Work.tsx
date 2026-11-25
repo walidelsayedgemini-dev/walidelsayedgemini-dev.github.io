@@ -1,9 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { ArrowUpRight, Lock, Radio } from "lucide-react";
 import { useI18n } from "../i18n";
 import { projects, projectData, type Project } from "../data/projects";
-import { ProjectModal } from "./ProjectModal";
+const ProjectModal = lazy(() => import("./ProjectModal").then((m) => ({ default: m.ProjectModal })));
 import { asset, useMedia, usePrefersReduced, GithubIcon } from "../lib/util";
 
 function Card({ p, i, onOpen }: { p: Project; i: number; onOpen: () => void }) {
@@ -178,7 +178,11 @@ export function Work() {
           </motion.div>
         </div>
       </div>
-      <AnimatePresence>{openProject && <ProjectModal p={openProject} onClose={() => setOpenId(null)} />}</AnimatePresence>
+      <AnimatePresence>{openProject && (
+          <Suspense fallback={null}>
+            <ProjectModal p={openProject} onClose={() => setOpenId(null)} />
+          </Suspense>
+        )}</AnimatePresence>
     </section>
   );
 }
