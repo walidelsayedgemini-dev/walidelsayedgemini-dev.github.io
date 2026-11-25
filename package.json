@@ -12,6 +12,8 @@
     "sync:github": "python3 scripts/sync_github.py"
   },
   "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@fontsource-variable/readex-pro": "^5.3.0",
     "@fontsource-variable/space-grotesk": "^5.3.0",

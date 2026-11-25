@@ -16,7 +16,7 @@ void main(){
   float core = exp(-length(p) * 38.0);
   vec3 amber = vec3(1.0, 0.70, 0.14);
   vec3 col = amber * (beam * fall * 0.34 + core * 1.1);
-  gl_FragColor = vec4(col, 1.0);
+  gl_FragColor = vec4(col, max(col.r, max(col.g, col.b)));
 }`;
 
 const beamVert = /* glsl */ `
@@ -44,9 +44,9 @@ void main(){
   ndc += normalize(d + 1e-4) * f * 0.16;
   clip.xy = ndc * clip.w;
   gl_Position = clip;
-  gl_PointSize = (1.0 + aSeed * 2.4 + f * 3.0) * uPx * (7.5 / -mv.z);
+  gl_PointSize = (1.4 + aSeed * 2.8 + f * 3.0) * uPx * (7.5 / -mv.z);
   vMix = smoothstep(0.5, 4.8, aR) ;
-  vA = 0.35 + 0.65 * aSeed + f;
+  vA = 0.5 + 0.5 * aSeed + f;
 }`;
 
 const ptsFrag = /* glsl */ `
@@ -58,9 +58,13 @@ void main(){
   if(r > 0.5) discard;
   float soft = smoothstep(0.5, 0.0, r);
   vec3 amber = vec3(1.0, 0.72, 0.18);
-  vec3 cyan = vec3(0.30, 0.88, 1.0);
-  vec3 col = mix(amber, cyan, vMix);
-  gl_FragColor = vec4(col, soft * vA * 0.9);
+  vec3 cyan = vec3(0.30, 0.90, 1.0);
+  vec3 rose = vec3(1.0, 0.42, 0.65);
+  vec3 violet = vec3(0.66, 0.55, 1.0);
+  vec3 col = mix(amber, rose, smoothstep(0.0, 0.34, vMix));
+  col = mix(col, violet, smoothstep(0.30, 0.64, vMix));
+  col = mix(col, cyan, smoothstep(0.60, 1.0, vMix));
+  gl_FragColor = vec4(col, soft * vA);
 }`;
 
 export default function HeroCanvas() {
@@ -95,7 +99,12 @@ export default function HeroCanvas() {
       uniforms: { uTime: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) } },
       depthTest: false,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.CustomBlending,
+      blendEquation: THREE.AddEquation,
+      blendSrc: THREE.OneFactor,
+      blendDst: THREE.OneFactor,
+      blendSrcAlpha: THREE.OneFactor,
+      blendDstAlpha: THREE.OneFactor,
       transparent: true,
     });
     const beam = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), beamMat);
