@@ -434,7 +434,7 @@ section {
   font-weight: 700;
   font-size: clamp(3.6rem, 15.5vw, 12.5rem);
   line-height: 0.86;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 [dir="rtl"] .name {
