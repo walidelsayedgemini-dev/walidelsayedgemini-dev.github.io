@@ -1,24 +1,26 @@
-name: Deploy portfolio to GitHub Pages
+name: Build and publish portfolio
 
+# Source lives on the `source` branch. The built site is committed to `main`,
+# which GitHub Pages serves from the repository root.
 on:
   push:
-    branches: [main]
+    branches: [source]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: publish
   cancel-in-progress: true
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: source
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -26,16 +28,25 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/checkout@v4
         with:
-          path: dist
+          ref: main
+          path: site
+      - name: Replace site contents with the new build
+        run: |
+          find site -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a dist/. site/
+          touch site/.nojekyll
+          cat > site/README.md <<'MD'
+          # Walid Sayed — Portfolio (built site)
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          This branch holds the built output served by GitHub Pages.
+          The source code is on the [`source`](../../tree/source) branch.
+          MD
+      - name: Commit and push
+        working-directory: site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || (git commit -m "Deploy: ${GITHUB_SHA::7}" && git push origin main)

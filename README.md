@@ -12,4 +12,6 @@ pnpm sync:github    # refresh src/data/github.generated.json via the gh CLI
 pnpm build
 ```
 
+The built site is published to `main` by `.github/workflows/pages.yml`; source lives on the `source` branch.
+
 Private repositories appear only as labelled cards (no links, no commit messages).
