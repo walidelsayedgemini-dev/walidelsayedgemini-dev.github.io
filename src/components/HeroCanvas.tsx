@@ -76,8 +76,10 @@ export default function HeroCanvas() {
     } catch {
       return; // WebGL unavailable: CSS gradient fallback stays visible
     }
+    const nav = navigator as Navigator & { deviceMemory?: number; connection?: { saveData?: boolean } };
     const mobile = window.innerWidth < 800;
-    const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75);
+    const lowEnd = mobile || (nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 4 || !!nav.connection?.saveData;
+    const dpr = Math.min(window.devicePixelRatio || 1, lowEnd ? 1.25 : 1.75);
     renderer.setPixelRatio(dpr);
     renderer.setClearColor(0x000000, 0);
     el.appendChild(renderer.domElement);
@@ -102,7 +104,7 @@ export default function HeroCanvas() {
     scene.add(beam);
 
     // spiral-galaxy particle field
-    const N = mobile ? 3200 : 7500;
+    const N = lowEnd ? 3200 : 7500;
     const pos = new Float32Array(N * 3);
     const seed = new Float32Array(N);
     const rad = new Float32Array(N);
@@ -170,9 +172,46 @@ export default function HeroCanvas() {
 
     const clock = new THREE.Clock();
     let raf = 0;
+    // Adaptive quality: if the device cannot hold ~35 fps, step down resolution, then particle count, then frame rate.
+    let level = 0;
+    let frames = 0;
+    let acc = 0;
+    let last = performance.now();
+    let skip = false;
+    const degrade = () => {
+      level++;
+      if (level === 1) {
+        renderer.setPixelRatio(1);
+        ptsMat.uniforms.uPx.value = 1;
+        resize();
+      } else if (level === 2) {
+        geo.setDrawRange(0, Math.floor(N * 0.45));
+      } else if (level === 3) {
+        geo.setDrawRange(0, Math.floor(N * 0.25));
+      }
+    };
     const loop = () => {
       raf = requestAnimationFrame(loop);
-      if (!visible || document.hidden) return;
+      if (!visible || document.hidden) {
+        last = performance.now();
+        return;
+      }
+      const now = performance.now();
+      const dt = now - last;
+      last = now;
+      if (dt < 250) {
+        acc += dt;
+        frames++;
+        if (frames === 45) {
+          if (acc / frames > 29 && level < 3) degrade();
+          acc = 0;
+          frames = 0;
+        }
+      }
+      if (level >= 3) {
+        skip = !skip;
+        if (skip) return;
+      }
       const t = clock.getElapsedTime();
       beamMat.uniforms.uTime.value = t;
       ptsMat.uniforms.uTime.value = t;

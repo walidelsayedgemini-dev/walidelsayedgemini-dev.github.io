@@ -1,3 +1,4 @@
+import { hasJourney } from "../data/extra";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ArrowDown, Search, Languages } from "lucide-react";
@@ -11,6 +12,7 @@ export const SECTIONS: { id: string; key: Key }[] = [
   { id: "stack", key: "nav.stack" },
   { id: "timeline", key: "nav.timeline" },
   { id: "about", key: "nav.about" },
+  ...(hasJourney ? [{ id: "journey", key: "nav.journey" as Key }] : []),
   { id: "contact", key: "nav.contact" },
 ];
 

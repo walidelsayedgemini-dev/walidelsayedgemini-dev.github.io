@@ -4,6 +4,8 @@ import { CornerDownLeft, Hash, Rocket, Globe, Mail, Languages } from "lucide-rea
 import { useI18n } from "../i18n";
 import { projects, projectData } from "../data/projects";
 import { gh, EMAIL, FACEBOOK } from "../data/github";
+import { extra } from "../data/extra";
+import { asset } from "../lib/util";
 import { scrollToId, GithubIcon, FacebookIcon } from "../lib/util";
 import { SECTIONS } from "./Hero";
 
@@ -34,16 +36,13 @@ export function Palette({ onClose, onCopied }: { onClose: () => void; onCopied: 
         label: pick(p.name),
         hint: d.private ? "private" : p.live ? "live" : "repo",
         icon: <Rocket />,
-        run: () => {
-          if (p.live) window.open(p.live, "_blank", "noopener");
-          else if (!d.private) window.open(d.url, "_blank", "noopener");
-          else scrollToId("work");
-        },
+        run: () => window.dispatchEvent(new CustomEvent("open-project", { detail: p.id })),
       });
     });
     out.push(
       { group: t("pal.actions"), label: t("pal.lang"), icon: <Languages />, run: () => setLang(lang === "en" ? "ar" : "en") },
       { group: t("pal.actions"), label: t("pal.gh"), icon: <GithubIcon />, run: () => window.open(gh.profile.html_url, "_blank", "noopener") },
+      ...(extra.cvUrl ? [{ group: t("pal.actions"), label: t("pal.cv"), icon: <Mail />, run: () => window.open(asset(extra.cvUrl), "_blank", "noopener") }] : []),
       ...(FACEBOOK ? [{ group: t("pal.actions"), label: t("pal.fb"), icon: <FacebookIcon />, run: () => window.open(FACEBOOK, "_blank", "noopener") }] : []),
       {
         group: t("pal.actions"),

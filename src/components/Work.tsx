@@ -1,11 +1,12 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { ArrowUpRight, Lock, Radio } from "lucide-react";
 import { useI18n } from "../i18n";
 import { projects, projectData, type Project } from "../data/projects";
+import { ProjectModal } from "./ProjectModal";
 import { asset, useMedia, usePrefersReduced, GithubIcon } from "../lib/util";
 
-function Card({ p, i }: { p: Project; i: number }) {
+function Card({ p, i, onOpen }: { p: Project; i: number; onOpen: () => void }) {
   const { t, pick, num } = useI18n();
   const d = projectData(p);
   const ref = useRef<HTMLElement>(null);
@@ -37,6 +38,9 @@ function Card({ p, i }: { p: Project; i: number }) {
       style={{ ["--c" as string]: p.color, rotateX: sx, rotateY: sy, transformPerspective: 1100 }}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
+      onClick={(e) => {
+        if (!(e.target as HTMLElement).closest("a")) onOpen();
+      }}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
@@ -85,6 +89,9 @@ function Card({ p, i }: { p: Project; i: number }) {
             {num(d.commits)} {t("work.commits")}
           </span>
           <div className="card-links">
+            <button className="lnk" onClick={onOpen}>
+              {t("work.details")}
+            </button>
             {p.live && (
               <a className="lnk main" href={p.live} target="_blank" rel="noreferrer">
                 {t("work.live")} <ArrowUpRight />
@@ -136,6 +143,13 @@ export function Work() {
   const x = useTransform(scrollYProgress, [0, 1], [0, sign * dist]);
   const smooth = useSpring(x, { stiffness: 120, damping: 28, mass: 0.4 });
   const [cur, setCur] = useState(1);
+  const [openId, setOpenId] = useState<string | null>(null);
+  useEffect(() => {
+    const h = (e: Event) => setOpenId((e as CustomEvent<string>).detail);
+    window.addEventListener("open-project", h);
+    return () => window.removeEventListener("open-project", h);
+  }, []);
+  const openProject = projects.find((x) => x.id === openId);
   useLayoutEffect(() => scrollYProgress.on("change", (v) => setCur(Math.min(projects.length, Math.floor(v * projects.length) + 1))), [scrollYProgress]);
 
   return (
@@ -159,11 +173,12 @@ export function Work() {
           )}
           <motion.div className="work-track" ref={track} style={wide ? { x: smooth } : undefined}>
             {projects.map((p, i) => (
-              <Card key={p.id} p={p} i={i} />
+              <Card key={p.id} p={p} i={i} onOpen={() => setOpenId(p.id)} />
             ))}
           </motion.div>
         </div>
       </div>
+      <AnimatePresence>{openProject && <ProjectModal p={openProject} onClose={() => setOpenId(null)} />}</AnimatePresence>
     </section>
   );
 }

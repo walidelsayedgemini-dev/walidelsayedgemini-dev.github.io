@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Copy, Mail, Check } from "lucide-react";
 import { useI18n } from "../i18n";
 import { gh, EMAIL, FACEBOOK } from "../data/github";
+import { extra } from "../data/extra";
 import { asset, fmtDay, GithubIcon, FacebookIcon, scrollToId } from "../lib/util";
 
 const rise = (d = 0) => ({
@@ -137,6 +138,14 @@ export function Contact({ onCopied }: { onCopied: () => void }) {
               <span className="ltr">@{gh.profile.login}</span>
             </span>
           </a>
+          {extra.cvUrl && (
+            <a className="social" href={asset(extra.cvUrl)} target="_blank" rel="noreferrer" download>
+              <span>
+                <small>CV</small>
+                {t("contact.cv")}
+              </span>
+            </a>
+          )}
           {FACEBOOK && (
             <a className="social" href={FACEBOOK} target="_blank" rel="noreferrer">
               <FacebookIcon />

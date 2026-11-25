@@ -8,6 +8,7 @@ import { Stats } from "./components/Stats";
 import { Work } from "./components/Work";
 import { Stack, Timeline } from "./components/Sections";
 import { About, Contact } from "./components/AboutContact";
+import { Journey } from "./components/Journey";
 import { Palette } from "./components/Palette";
 import { usePrefersReduced } from "./lib/util";
 
@@ -72,6 +73,7 @@ function Shell() {
         <Stack />
         <Timeline />
         <About />
+        <Journey />
         <Contact onCopied={flash} />
       </main>
       <AnimatePresence>{palette && <Palette onClose={() => setPalette(false)} onCopied={flash} />}</AnimatePresence>
