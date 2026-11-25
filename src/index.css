@@ -2542,3 +2542,12 @@ html[data-theme="light"] .pm, html[data-theme="light"] .pal {
   --line: rgba(226, 218, 200, 0.14); --amber: #d4b06a; --amber-soft: rgba(212, 176, 106, 0.14); --cyan: #ecd9aa;
   color: #f3eee3;
 }
+
+/* ===== Logo v4: vector W ===== */
+:root, .hero, .boot, .nav:not(.solid), .sheet { --mk1: #f7e7b4; --mk2: #d9b872; --mk3: #a98445; --mk4: #fff3cc; --mk5: #e6c887; --mk6: #c29a52; }
+html[data-theme="light"] { --mk1: #b8903f; --mk2: #9a7632; --mk3: #75561f; --mk4: #c9a04e; --mk5: #a98440; --mk6: #85642a; }
+html[data-theme="light"] .hero, html[data-theme="light"] .boot, html[data-theme="light"] .nav:not(.solid), html[data-theme="light"] .sheet { --mk1: #f7e7b4; --mk2: #d9b872; --mk3: #a98445; --mk4: #fff3cc; --mk5: #e6c887; --mk6: #c29a52; }
+.mark { display: inline-block; flex: none; overflow: visible; position: static; line-height: 1; filter: none; }
+.mark-anim { filter: drop-shadow(0 0 26px rgba(212,176,106,.28)); }
+.logo .mark { transition: transform .5s cubic-bezier(.22,1,.36,1), filter .5s; }
+html[data-theme="light"] .nav.solid .mark img { filter: none; }

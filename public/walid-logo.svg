@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 0 130.6 100">
+<defs>
+<linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7e7b4"/><stop offset=".55" stop-color="#d9b872"/><stop offset="1" stop-color="#a98445"/></linearGradient>
+<linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3cc"/><stop offset=".5" stop-color="#e6c887"/><stop offset="1" stop-color="#c29a52"/></linearGradient>
+<mask id="m"><rect x="-10" y="0" width="139" height="100" fill="#fff"/><g fill="#000" stroke="#000" stroke-width="3.2"><polygon points="90.1,92.0 72.1,92.0 50.3,28.0 68.3,28.0"/><polygon points="118.6,8.0 100.6,8.0 72.1,92.0 90.1,92.0"/></g></mask>
+</defs>
+<g mask="url(#m)" fill="url(#a)"><polygon points="0.0,8.0 18.0,8.0 46.6,92.0 28.6,92.0"/><polygon points="28.6,92.0 46.6,92.0 68.3,28.0 50.3,28.0"/></g>
+<g fill="url(#b)"><polygon points="90.1,92.0 72.1,92.0 50.3,28.0 68.3,28.0"/><polygon points="118.6,8.0 100.6,8.0 72.1,92.0 90.1,92.0"/></g>
+</svg>

@@ -159,7 +159,7 @@ export function Contact({ onCopied }: { onCopied: () => void }) {
         </motion.div>
         <footer className="footer">
           <span className="foot-id">
-            <Mark size={34} id="foot" />
+            <Mark size={22} id="foot" />
             <bdi className="ltr">© {new Date().getFullYear()} {gh.profile.name?.split("(")[0].trim()}</bdi> · {t("foot.built")} · <span className="ltr">{new Date(gh.generatedAt).toISOString().slice(0, 10)}</span>
           </span>
           <button onClick={() => scrollToId("top")}>{t("foot.top")}</button>
