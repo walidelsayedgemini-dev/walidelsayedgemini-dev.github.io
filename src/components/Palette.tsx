@@ -42,7 +42,7 @@ export function Palette({ onClose, onCopied }: { onClose: () => void; onCopied: 
     out.push(
       { group: t("pal.actions"), label: t("pal.lang"), icon: <Languages />, run: () => setLang(lang === "en" ? "ar" : "en") },
       { group: t("pal.actions"), label: t("pal.gh"), icon: <GithubIcon />, run: () => window.open(gh.profile.html_url, "_blank", "noopener") },
-      ...(extra.cvUrl ? [{ group: t("pal.actions"), label: t("pal.cv"), icon: <Mail />, run: () => window.open(asset(extra.cvUrl), "_blank", "noopener") }] : []),
+      ...(extra.cvUrl[lang] ? [{ group: t("pal.actions"), label: t("pal.cv"), icon: <Mail />, run: () => window.open(asset(extra.cvUrl[lang]), "_blank", "noopener") }] : []),
       ...(FACEBOOK ? [{ group: t("pal.actions"), label: t("pal.fb"), icon: <FacebookIcon />, run: () => window.open(FACEBOOK, "_blank", "noopener") }] : []),
       {
         group: t("pal.actions"),

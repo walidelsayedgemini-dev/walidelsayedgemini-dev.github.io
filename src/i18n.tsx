@@ -179,6 +179,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = dir;
+    document.title = lang === "ar" ? "وليد سيد — مطوّر Full-stack وFlutter · معلّم ICT" : "Walid Sayed — Full-stack & Flutter Developer · ICT Teacher";
   }, [lang, dir]);
 
   const setLang = useCallback((l: Lang) => {

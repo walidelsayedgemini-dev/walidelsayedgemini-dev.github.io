@@ -148,8 +148,19 @@ export function Work() {
   useEffect(() => {
     const h = (e: Event) => setOpenId((e as CustomEvent<string>).detail);
     window.addEventListener("open-project", h);
+    const m = location.hash.match(/^#p\/([\w-]+)/);
+    if (m && projects.some((x) => x.id === m[1])) {
+      setTimeout(() => {
+        document.getElementById("work")?.scrollIntoView();
+        setOpenId(m[1]);
+      }, 3200);
+    }
     return () => window.removeEventListener("open-project", h);
   }, []);
+  useEffect(() => {
+    const base = location.pathname + location.search;
+    history.replaceState(null, "", openId ? `${base}#p/${openId}` : location.hash.startsWith("#p/") ? `${base}#work` : location.href.replace(location.origin, ""));
+  }, [openId]);
   const openProject = projects.find((x) => x.id === openId);
   useLayoutEffect(() => scrollYProgress.on("change", (v) => setCur(Math.min(projects.length, Math.floor(v * projects.length) + 1))), [scrollYProgress]);
 

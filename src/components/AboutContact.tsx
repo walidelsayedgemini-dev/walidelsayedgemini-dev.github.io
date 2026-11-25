@@ -139,8 +139,8 @@ export function Contact({ onCopied }: { onCopied: () => void }) {
               <span className="ltr">@{gh.profile.login}</span>
             </span>
           </a>
-          {extra.cvUrl && (
-            <a className="social" href={asset(extra.cvUrl)} target="_blank" rel="noreferrer" download>
+          {extra.cvUrl[lang] && (
+            <a className="social" href={asset(extra.cvUrl[lang])} target="_blank" rel="noreferrer" download>
               <span>
                 <small>CV</small>
                 {t("contact.cv")}

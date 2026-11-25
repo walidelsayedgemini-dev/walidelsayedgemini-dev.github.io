@@ -17,13 +17,13 @@ export interface Quote {
 }
 
 export const extra: {
-  /** Public URL or path of a CV file, e.g. "cv/walid-sayed.pdf" placed in /public. Empty = no button. */
-  cvUrl: string;
+  /** CV PDFs in /public/cv, generated from verified GitHub data by scripts/gen_cv.ts. Replace with your own CV any time. */
+  cvUrl: Bi;
   education: Entry[];
   experience: Entry[];
   testimonials: Quote[];
 } = {
-  cvUrl: "",
+  cvUrl: { en: "cv/Walid-Sayed-CV-EN.pdf", ar: "cv/Walid-Sayed-CV-AR.pdf" },
   education: [],
   experience: [],
   testimonials: [],
