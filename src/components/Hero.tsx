@@ -1,12 +1,12 @@
 import { Mark } from "./Mark";
 import { hasJourney } from "../data/extra";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowUpRight, ArrowDown, Search, Languages } from "lucide-react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowUpRight, ArrowDown, Search, Languages, Menu, X } from "lucide-react";
 import { useI18n, type Key } from "../i18n";
 import { asset, scrollToId, GithubIcon, usePrefersReduced } from "../lib/util";
 import { gh } from "../data/github";
-import HeroCanvas from "./HeroCanvas";
+const HeroCanvas = lazy(() => import("./HeroCanvas"));
 
 export const SECTIONS: { id: string; key: Key }[] = [
   { id: "work", key: "nav.work" },
@@ -29,6 +29,13 @@ function Logo() {
 export function Nav({ openPalette }: { openPalette: () => void }) {
   const { t, lang, setLang } = useI18n();
   const [solid, setSolid] = useState(false);
+  const [menu, setMenu] = useState(false);
+  useEffect(() => {
+    document.body.classList.toggle("locked", menu);
+    const k = (e: KeyboardEvent) => e.key === "Escape" && setMenu(false);
+    window.addEventListener("keydown", k);
+    return () => window.removeEventListener("keydown", k);
+  }, [menu]);
   const [active, setActive] = useState("");
 
   useEffect(() => {
@@ -69,6 +76,32 @@ export function Nav({ openPalette }: { openPalette: () => void }) {
           <Languages size={14} />
           <span>{lang === "en" ? "عربي" : "EN"}</span>
         </button>
+        <button className="chip-btn burger" onClick={() => setMenu((m) => !m)} aria-label="Menu" aria-expanded={menu}>
+          {menu ? <X size={16} /> : <Menu size={16} />}
+        </button>
+      </div>
+      <div className={`sheet${menu ? " open" : ""}`} aria-hidden={!menu}>
+        <nav>
+          {SECTIONS.map((s, i) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              style={{ transitionDelay: `${menu ? 80 + i * 60 : 0}ms` }}
+              onClick={(e) => (e.preventDefault(), setMenu(false), setTimeout(() => scrollToId(s.id), 60))}
+            >
+              <small className="mono">0{i + 1}</small>
+              {t(s.key)}
+            </a>
+          ))}
+        </nav>
+        <div className="sheet-foot">
+          <a href={gh.profile.html_url} target="_blank" rel="noreferrer">
+            <GithubIcon /> GitHub
+          </a>
+          <button onClick={() => (setMenu(false), openPalette())}>
+            <Search size={14} /> {t("nav.search")}
+          </button>
+        </div>
       </div>
     </header>
   );
@@ -129,13 +162,19 @@ function RoleSwap() {
 export function Hero({ ready }: { ready: boolean }) {
   const { t, num, lang } = useI18n();
   const d = ready ? 0.1 : 99;
+  const { scrollY } = useScroll();
+  const fade = useTransform(scrollY, [0, 520], [1, 0]);
+  const lift = useTransform(scrollY, [0, 520], [0, -70]);
+  const lift2 = useTransform(scrollY, [0, 520], [0, 50]);
   const ring = `${num(gh.repos.length)} REPOS · ${num(gh.totalCommits)} COMMITS · ALEXANDRIA · ICT TEACHER · `;
   return (
     <section className="hero" id="top">
-      <HeroCanvas />
+      <Suspense fallback={null}>
+        <HeroCanvas />
+      </Suspense>
       <div className="hero-fade" />
       <div className="wrap hero-grid" style={{ width: "100%" }}>
-        <div>
+        <motion.div style={{ opacity: fade, y: lift }}>
           <motion.div
             className="hero-kick"
             initial={{ opacity: 0, y: 12 }}
@@ -177,7 +216,8 @@ export function Hero({ ready }: { ready: boolean }) {
               <GithubIcon /> {t("hero.cta2")} <ArrowUpRight size={16} className="arr" />
             </a>
           </motion.div>
-        </div>
+        </motion.div>
+        <motion.div style={{ y: lift2, opacity: fade }}>
 
         <motion.div
           className="portrait"
@@ -201,6 +241,7 @@ export function Hero({ ready }: { ready: boolean }) {
             <b>{num(gh.repos.length)}</b>
             {lang === "ar" ? "منتجات على GitHub" : "products on GitHub"}
           </div>
+        </motion.div>
         </motion.div>
       </div>
       <div className="scroll-cue">

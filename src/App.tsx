@@ -10,12 +10,14 @@ import { Stack, Timeline } from "./components/Sections";
 import { About, Contact } from "./components/AboutContact";
 import { Journey } from "./components/Journey";
 import { Palette } from "./components/Palette";
+import { SideDots, useFx } from "./components/Extras";
 import { usePrefersReduced } from "./lib/util";
 
 function Shell() {
   const { t } = useI18n();
   const reduced = usePrefersReduced();
   const [booted, setBooted] = useState(() => reduced || sessionStorage.getItem("booted") === "1");
+  useFx();
   const [palette, setPalette] = useState(false);
   const [toast, setToast] = useState(false);
 
@@ -65,6 +67,7 @@ function Shell() {
       <Cursor />
       <ScrollProgress />
       {!booted && <Boot onDone={onBootDone} />}
+      {booted && <SideDots />}
       <Nav openPalette={() => setPalette(true)} />
       <main>
         <Hero ready={booted} />

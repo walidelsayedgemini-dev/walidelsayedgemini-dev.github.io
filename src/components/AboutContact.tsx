@@ -4,6 +4,7 @@ import { ArrowUpRight, Copy, Mail, Check } from "lucide-react";
 import { useI18n } from "../i18n";
 import { gh, EMAIL, FACEBOOK } from "../data/github";
 import { extra } from "../data/extra";
+import { Mark } from "./Mark";
 import { asset, fmtDay, GithubIcon, FacebookIcon, scrollToId } from "../lib/util";
 
 const rise = (d = 0) => ({
@@ -157,7 +158,8 @@ export function Contact({ onCopied }: { onCopied: () => void }) {
           )}
         </motion.div>
         <footer className="footer">
-          <span>
+          <span className="foot-id">
+            <Mark size={34} id="foot" />
             © {new Date().getFullYear()} {gh.profile.name?.split("(")[0].trim()} · {t("foot.built")} · <span className="ltr">{new Date(gh.generatedAt).toISOString().slice(0, 10)}</span>
           </span>
           <button onClick={() => scrollToId("top")}>{t("foot.top")}</button>
