@@ -6,6 +6,7 @@ import "@fontsource-variable/jetbrains-mono";
 import "@fontsource-variable/readex-pro";
 import "@fontsource/instrument-serif/400-italic.css";
 import "./index.css";
+import "./light.css";
 import App from "./App";
 
 createRoot(document.getElementById("root")!).render(

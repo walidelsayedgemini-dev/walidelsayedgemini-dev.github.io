@@ -2453,3 +2453,92 @@ html { scrollbar-color: #4a4f5c #0b0e13; }
   .footer { flex-direction: column; align-items: flex-start; gap: .9rem; }
   .foot-id { flex-wrap: wrap; row-gap: .5rem; }
 }
+
+/* ===== Services ===== */
+.services { padding-block: clamp(4rem, 9vw, 8rem); position: relative; }
+.svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2.6rem; }
+.svc { position: relative; display: flex; flex-direction: column; gap: .9rem; padding: 1.5rem 1.4rem 1.3rem; border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01)); overflow: hidden; transition: border-color .4s, translate .5s var(--ease), box-shadow .5s; }
+.svc::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px; background: linear-gradient(90deg, transparent, var(--amber), transparent); transform: scaleX(0); transition: transform .8s var(--ease); }
+.svc:hover { translate: 0 -6px; border-color: color-mix(in srgb, var(--amber) 45%, transparent); box-shadow: 0 24px 50px -28px rgba(212,176,106,.35); }
+.svc:hover::before { transform: scaleX(1); }
+.svc-top { display: flex; justify-content: space-between; align-items: center; }
+.svc-ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; color: var(--amber); background: var(--amber-soft); border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent); }
+.svc-n { font-size: .78rem; letter-spacing: .12em; color: var(--mute); }
+.svc h3 { font-family: var(--f-display); font-weight: 600; font-size: 1.18rem; line-height: 1.25; margin: .3rem 0 0; }
+.svc p { color: var(--mute); font-size: .95rem; margin: 0; flex: 1; }
+.svc-proof { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; padding-top: .9rem; border-top: 1px solid var(--line); }
+.svc-proof small { font-family: var(--f-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); margin-inline-end: .2rem; }
+.svc-proof button { font-size: .8rem; padding: .28rem .7rem; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--amber) 38%, transparent); color: var(--amber); transition: background .3s, color .3s; }
+.svc-proof button:hover { background: var(--amber); color: #0b0e13; }
+.svc-cta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1.6rem; padding: 1.2rem 1.5rem; border: 1px dashed color-mix(in srgb, var(--amber) 40%, transparent); border-radius: 22px; font-family: var(--f-display); font-size: 1.15rem; }
+@media (max-width: 1100px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .svc-grid { grid-template-columns: 1fr; } .svc-cta { flex-direction: column; align-items: stretch; text-align: center; } .svc-cta .btn { justify-content: center; } }
+
+/* ===== Nav icon buttons ===== */
+.chip-btn.icon { padding-inline: .62rem; aspect-ratio: 1; justify-content: center; }
+@media (max-width: 900px) { .chip-btn.icon { display: none; } }
+
+/* ===== Project cards: richer entrance ===== */
+.card .card-media > img.cv { transform: scale(1.22); filter: saturate(.7) blur(3px); transition: transform 1.6s var(--ease), filter 1.2s var(--ease); }
+.card.in .card-media > img.cv { transform: scale(1); filter: none; }
+.card.in:hover .card-media > img.cv { transform: scale(1.04); }
+.card .shot, .card .shotm { opacity: 0; translate: 0 34px; transition: opacity .9s .35s var(--ease), translate 1s .35s var(--ease); }
+.card.in .shot, .card.in .shotm { opacity: 1; translate: 0 0; }
+.card .card-kind, .card h3, .card p { opacity: 0; translate: 0 16px; transition: opacity .8s var(--ease), translate .9s var(--ease); }
+.card.in .card-kind { opacity: 1; translate: 0 0; transition-delay: .25s; }
+.card.in h3 { opacity: 1; translate: 0 0; transition-delay: .35s; }
+.card.in p { opacity: 1; translate: 0 0; transition-delay: .45s; }
+.card .tags span { opacity: 0; translate: 0 10px; transition: opacity .6s var(--ease), translate .7s var(--ease), background .3s, border-color .3s; }
+.card.in .tags span { opacity: 1; translate: 0 0; }
+.card.in .tags span:nth-child(1) { transition-delay: .55s; } .card.in .tags span:nth-child(2) { transition-delay: .62s; } .card.in .tags span:nth-child(3) { transition-delay: .69s; }
+.card.in .tags span:nth-child(4) { transition-delay: .76s; } .card.in .tags span:nth-child(5) { transition-delay: .83s; } .card.in .tags span:nth-child(n+6) { transition-delay: .9s; }
+.card::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, transparent, var(--amber), transparent); transform: scaleX(0); transform-origin: 0 50%; transition: transform 1.2s .1s var(--ease); pointer-events: none; z-index: 3; }
+.card.in::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .card .card-media > img.cv, .card .shot, .card .shotm, .card .card-kind, .card h3, .card p, .card .tags span { opacity: 1 !important; translate: none !important; transform: none !important; filter: none !important; transition: none !important; }
+}
+
+/* ===== Light theme (warm ivory). Hero + preloader stay dark as a "stage". ===== */
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f2e9; --bg2: #efe9db; --bg3: #e5ddca;
+  --ink: #1b1e26; --mute: #596070;
+  --line: rgba(40, 34, 20, 0.16);
+  --amber: #8a6a2c; --amber-soft: rgba(138, 106, 44, 0.12);
+  --cyan: #9a7632; --violet: #8a6a2c; --rose: #8a6a2c; --mint: #8a6a2c; --coral: #8a6a2c;
+}
+html[data-theme="light"] .hero,
+html[data-theme="light"] .boot,
+html[data-theme="light"] .nav:not(.solid),
+html[data-theme="light"] .sheet {
+  --bg: #0b0e13; --bg2: #11151c; --bg3: #1a1f29; --ink: #f3eee3; --mute: #b4b9c4;
+  --line: rgba(226, 218, 200, 0.14);
+  --amber: #d4b06a; --amber-soft: rgba(212, 176, 106, 0.14); --cyan: #ecd9aa;
+}
+html[data-theme="light"] .hero { background: #0b0e13; color: #f3eee3; }
+html[data-theme="light"] .nav:not(.solid) { color: #f3eee3; }
+html[data-theme="light"] .nav.solid { background: rgba(246, 242, 233, 0.82); color: #1b1e26; border-bottom-color: var(--line); }
+html[data-theme="light"] .nav.solid .nav-links a { color: #3d4352; }
+html[data-theme="light"] .nav.solid .nav-links a.on, html[data-theme="light"] .nav.solid .nav-links a:hover { color: #1b1e26; background: rgba(40, 34, 20, .07); }
+html[data-theme="light"] .nav.solid .chip-btn { background: rgba(40, 34, 20, .05); border-color: var(--line); color: #1b1e26; }
+html[data-theme="light"] .nav.solid .chip-btn kbd { border-color: var(--line); color: #596070; }
+html[data-theme="light"] .nav.solid .logo { color: #1b1e26; }
+html[data-theme="light"] .nav.solid .mark img { filter: brightness(.62) saturate(1.25) contrast(1.1); }
+html[data-theme="light"] .h2, html[data-theme="light"] [dir="rtl"] .h2 { background: linear-gradient(95deg, #1b1e26 0%, #1b1e26 50%, #8a6a2c 100%); -webkit-background-clip: text; background-clip: text; }
+html[data-theme="light"] [dir="rtl"] .h2 { background: linear-gradient(265deg, #1b1e26 0%, #1b1e26 50%, #8a6a2c 100%); -webkit-background-clip: text; background-clip: text; }
+html[data-theme="light"] .grain { opacity: .05; mix-blend-mode: multiply; }
+html[data-theme="light"] .scroll-progress, html[data-theme="light"] .progress { background: #8a6a2c; }
+html[data-theme="light"] .footer { color: #596070; }
+html[data-theme="light"] .btn.primary { color: #fff; background: linear-gradient(135deg, #a98445, #8a6a2c); }
+html[data-theme="light"] .btn.ghost { color: #1b1e26; border-color: var(--line); background: transparent; }
+html[data-theme="light"] .svc { background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.35)); }
+html[data-theme="light"] .svc-proof button:hover { color: #fff; }
+html[data-theme="light"] .hm-cell { background: rgba(40, 34, 20, 0.07); }
+html[data-theme="light"] .hero .btn.ghost { color: #f3eee3; border-color: rgba(226, 218, 200, .3); background: rgba(255,255,255,.04); }
+html[data-theme="light"] .hero .btn.primary { color: #0b0e13; background: linear-gradient(135deg, #f0dba5, #c9a45e); }
+/* modal + palette keep the dark "stage" in light mode */
+html[data-theme="light"] .pm, html[data-theme="light"] .pal {
+  --bg: #0b0e13; --bg2: #11151c; --bg3: #1a1f29; --ink: #f3eee3; --mute: #b4b9c4;
+  --line: rgba(226, 218, 200, 0.14); --amber: #d4b06a; --amber-soft: rgba(212, 176, 106, 0.14); --cyan: #ecd9aa;
+  color: #f3eee3;
+}

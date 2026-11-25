@@ -2,7 +2,8 @@ import { Mark } from "./Mark";
 import { hasJourney } from "../data/extra";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowDown, Search, Languages, Menu, X } from "lucide-react";
+import { ArrowUpRight, ArrowDown, Search, Languages, Menu, X, Sun, Moon, Volume2, VolumeX } from "lucide-react";
+import { useTheme, useSound } from "../lib/prefs";
 import { useI18n, type Key } from "../i18n";
 import { asset, scrollToId, GithubIcon, usePrefersReduced } from "../lib/util";
 import { gh } from "../data/github";
@@ -10,6 +11,7 @@ const HeroCanvas = lazy(() => import("./HeroCanvas"));
 
 export const SECTIONS: { id: string; key: Key }[] = [
   { id: "work", key: "nav.work" },
+  { id: "services", key: "nav.services" },
   { id: "stack", key: "nav.stack" },
   { id: "timeline", key: "nav.timeline" },
   { id: "about", key: "nav.about" },
@@ -30,6 +32,8 @@ export function Nav({ openPalette }: { openPalette: () => void }) {
   const { t, lang, setLang } = useI18n();
   const [solid, setSolid] = useState(false);
   const [menu, setMenu] = useState(false);
+  const { theme, toggle: toggleTheme } = useTheme();
+  const { on: sfx, toggle: toggleSfx } = useSound();
   useEffect(() => {
     document.body.classList.toggle("locked", menu);
     const k = (e: KeyboardEvent) => e.key === "Escape" && setMenu(false);
@@ -76,6 +80,12 @@ export function Nav({ openPalette }: { openPalette: () => void }) {
           <Languages size={14} />
           <span>{lang === "en" ? "عربي" : "EN"}</span>
         </button>
+        <button className="chip-btn icon" onClick={toggleSfx} aria-label={t("nav.sound")} aria-pressed={sfx} title={t("nav.sound")}>
+          {sfx ? <Volume2 size={15} /> : <VolumeX size={15} />}
+        </button>
+        <button className="chip-btn icon" onClick={toggleTheme} aria-label={t("nav.theme")} title={t("nav.theme")}>
+          {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
+        </button>
         <button className="chip-btn burger" onClick={() => setMenu((m) => !m)} aria-label="Menu" aria-expanded={menu}>
           {menu ? <X size={16} /> : <Menu size={16} />}
         </button>
@@ -98,6 +108,9 @@ export function Nav({ openPalette }: { openPalette: () => void }) {
           <a href={gh.profile.html_url} target="_blank" rel="noreferrer">
             <GithubIcon /> GitHub
           </a>
+          <button onClick={toggleTheme}>
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />} {t("nav.theme")}
+          </button>
           <button onClick={() => (setMenu(false), openPalette())}>
             <Search size={14} /> {t("nav.search")}
           </button>

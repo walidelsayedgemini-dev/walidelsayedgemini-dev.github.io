@@ -41,9 +41,10 @@ function Card({ p, i, onOpen }: { p: Project; i: number; onOpen: () => void }) {
       onClick={(e) => {
         if (!(e.target as HTMLElement).closest("a")) onOpen();
       }}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 70, scale: 0.94 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      onViewportEnter={() => ref.current?.classList.add("in")}
       transition={{ duration: 0.8, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="glare" />

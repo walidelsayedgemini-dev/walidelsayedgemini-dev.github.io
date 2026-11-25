@@ -5,6 +5,7 @@ import { I18nProvider, useI18n } from "./i18n";
 import { Boot, Cursor, ScrollProgress } from "./components/Chrome";
 import { Hero, Nav } from "./components/Hero";
 import { Stats } from "./components/Stats";
+import { Services } from "./components/Services";
 import { Work } from "./components/Work";
 import { Stack, Timeline } from "./components/Sections";
 import { About, Contact } from "./components/AboutContact";
@@ -78,6 +79,7 @@ function Shell() {
         <Hero ready={heroReady} />
         <Stats />
         <Work />
+        <Services />
         <Stack />
         <Timeline />
         <About />
