@@ -14,7 +14,7 @@ void main(){
   float beam = pow(smoothstep(0.42, 0.0, d), 2.2);
   float fall = exp(-length(p) * 0.85);
   float core = exp(-length(p) * 38.0);
-  vec3 amber = vec3(1.0, 0.70, 0.14);
+  vec3 amber = vec3(0.93, 0.76, 0.46);
   vec3 col = amber * (beam * fall * 0.34 + core * 1.1);
   gl_FragColor = vec4(col, max(col.r, max(col.g, col.b)));
 }`;
@@ -57,10 +57,10 @@ void main(){
   float r = length(q);
   if(r > 0.5) discard;
   float soft = smoothstep(0.5, 0.0, r);
-  vec3 amber = vec3(1.0, 0.72, 0.18);
-  vec3 cyan = vec3(0.30, 0.90, 1.0);
-  vec3 rose = vec3(1.0, 0.42, 0.65);
-  vec3 violet = vec3(0.66, 0.55, 1.0);
+  vec3 amber = vec3(0.93, 0.77, 0.48);
+  vec3 cyan = vec3(0.56, 0.82, 0.80);
+  vec3 rose = vec3(0.85, 0.63, 0.63);
+  vec3 violet = vec3(0.67, 0.66, 0.85);
   vec3 col = mix(amber, rose, smoothstep(0.0, 0.34, vMix));
   col = mix(col, violet, smoothstep(0.30, 0.64, vMix));
   col = mix(col, cyan, smoothstep(0.60, 1.0, vMix));

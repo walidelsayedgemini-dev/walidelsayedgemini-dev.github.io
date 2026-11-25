@@ -32,7 +32,7 @@ export const projects: Project[] = [
     shot: "img/shot-linkme.webp",
     shotM: "img/shotm-linkme.webp",
     live: "https://link-me-alpha.vercel.app",
-    color: "#4D8DFF",
+    color: "#7f9fe0",
   },
   {
     id: "firdaws",
@@ -48,7 +48,7 @@ export const projects: Project[] = [
     shot: "img/shot-firdaws.webp",
     shotM: "img/shotm-firdaws.webp",
     live: "https://walidelsayedgemini-dev.github.io/islamic_prayer_app/",
-    color: "#2DD4A8",
+    color: "#7cc4ae",
   },
   {
     id: "lastthread",
@@ -64,7 +64,7 @@ export const projects: Project[] = [
     shot: "img/shot-lastthread.webp",
     shotM: "img/shotm-lastthread.webp",
     live: "https://walidelsayedgemini-dev.github.io/the-last-thread/",
-    color: "#FF4D5E",
+    color: "#d98a92",
   },
   {
     id: "cheese",
@@ -77,7 +77,7 @@ export const projects: Project[] = [
     },
     tags: ["React", "Zustand", "Framer Motion", "PWA", "Capacitor"],
     cover: "img/cover-cheese.webp",
-    color: "#FFC83D",
+    color: "#dfc07a",
   },
   {
     id: "arcade",
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     },
     tags: ["React", "TypeScript", "Canvas", "Capacitor", "Framer Motion"],
     cover: "img/cover-arcade.webp",
-    color: "#B14DFF",
+    color: "#a995d6",
   },
   {
     id: "ludo",
@@ -103,7 +103,7 @@ export const projects: Project[] = [
     },
     tags: ["React", "tRPC", "Drizzle", "Zustand", "Framer Motion"],
     cover: "img/cover-ludo.webp",
-    color: "#F5A524",
+    color: "#dcb277",
   },
   {
     id: "crime",
@@ -116,7 +116,7 @@ export const projects: Project[] = [
     },
     tags: ["React", "TypeScript", "Zustand", "Tailwind", "PWA"],
     cover: "img/cover-crime.webp",
-    color: "#FF2E54",
+    color: "#d4808f",
   },
   {
     id: "fit",
@@ -129,7 +129,7 @@ export const projects: Project[] = [
     },
     tags: ["React 18", "Vite", "Tailwind v4", "Recharts", "PWA"],
     cover: "img/cover-fit.webp",
-    color: "#22D3EE",
+    color: "#82c6d4",
   },
   {
     id: "journal",
@@ -142,7 +142,7 @@ export const projects: Project[] = [
     },
     tags: ["React", "Canvas 2D", "IndexedDB", "Recharts", "PWA"],
     cover: "img/cover-journal.webp",
-    color: "#8B7CFF",
+    color: "#9a98d6",
   },
 ];
 

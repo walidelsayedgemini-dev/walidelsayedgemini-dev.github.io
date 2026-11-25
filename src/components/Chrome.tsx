@@ -1,70 +1,55 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { useI18n } from "../i18n";
-import { gh, LOGIN, activeDays } from "../data/github";
+import { Mark } from "./Mark";
 
-/* ---------------- Boot sequence ---------------- */
+/* ---------------- Preloader: the monogram draws itself ---------------- */
 export function Boot({ onDone }: { onDone: () => void }) {
-  const { t } = useI18n();
-  const lines = useRef([
-    `<b>$</b> gh auth status`,
-    `<i>✓</i> Logged in as <b>${LOGIN}</b>`,
-    `<b>$</b> git clone --all github.com/${LOGIN}`,
-    `<i>✓</i> ${gh.repos.length} repositories · ${gh.totalCommits} commits · ${gh.languages.length} languages · ${activeDays} active days`,
-    `<b>$</b> pnpm dev --portfolio walid`,
-  ]).current;
-  const [shown, setShown] = useState(0);
+  const { lang } = useI18n();
   const [exit, setExit] = useState(false);
-
   useEffect(() => {
     document.body.classList.add("locked");
-    const timers: number[] = [];
-    lines.forEach((_, i) => timers.push(window.setTimeout(() => setShown(i + 1), 320 + i * 430)));
-    timers.push(window.setTimeout(() => setExit(true), 320 + lines.length * 430 + 350));
+    const t = window.setTimeout(() => setExit(true), 3000);
     const skip = () => setExit(true);
     window.addEventListener("keydown", skip);
     window.addEventListener("pointerdown", skip);
     return () => {
-      timers.forEach(clearTimeout);
+      clearTimeout(t);
       window.removeEventListener("keydown", skip);
       window.removeEventListener("pointerdown", skip);
     };
-  }, [lines]);
-
+  }, []);
   useEffect(() => {
     if (!exit) return;
     const id = window.setTimeout(() => {
       document.body.classList.remove("locked");
       onDone();
-    }, 700);
+    }, 900);
     return () => clearTimeout(id);
   }, [exit, onDone]);
-
   return (
     <motion.div
       className="boot"
-      initial={{ clipPath: "inset(0 0 0 0)" }}
-      animate={{ clipPath: exit ? "inset(0 0 100% 0)" : "inset(0 0 0 0)" }}
-      transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: exit ? 0 : 1, scale: exit ? 1.04 : 1 }}
+      transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
       role="status"
       aria-label="Loading"
     >
-      <div className="boot-inner">
-        {lines.slice(0, shown).map((l, i) => (
-          <div key={i} className="boot-line" dangerouslySetInnerHTML={{ __html: l }} />
-        ))}
-        <div className="boot-line">
-          <span className="boot-caret" />
-        </div>
-        <div className="boot-bar">
-          <motion.span initial={{ width: "0%" }} animate={{ width: `${(shown / lines.length) * 100}%` }} transition={{ duration: 0.4 }} />
-        </div>
-        <div className="boot-skip">{t("boot.skip")}</div>
+      <div className="boot-halo" />
+      <div className="boot-stack">
+        <Mark size={168} animate id="boot" />
+        <motion.div className="boot-name" initial={{ opacity: 0, y: 14, letterSpacing: "0.5em" }} animate={{ opacity: 1, y: 0, letterSpacing: "0.34em" }} transition={{ duration: 1.1, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}>
+          WALID SAYED
+        </motion.div>
+        <motion.div className="boot-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 2.0 }}>
+          {lang === "ar" ? "مطوّر برمجيات · الإسكندرية" : "Software developer · Alexandria"}
+        </motion.div>
+        <div className="boot-line2"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2.7, ease: [0.65, 0, 0.35, 1] }} /></div>
       </div>
     </motion.div>
   );
 }
-
 /* ---------------- Custom cursor ---------------- */
 export function Cursor() {
   const dot = useRef<HTMLDivElement>(null);

@@ -1,3 +1,4 @@
+import { Mark } from "./Mark";
 import { hasJourney } from "../data/extra";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -19,15 +20,7 @@ export const SECTIONS: { id: string; key: Key }[] = [
 function Logo() {
   return (
     <a href="#top" className="logo" onClick={(e) => (e.preventDefault(), scrollToId("top"))} aria-label="Walid Sayed">
-      <svg viewBox="0 0 64 64" aria-hidden>
-        <g className="beam">
-          <path d="M32 20L2 8v24z" fill="#FFB224" opacity=".18" />
-          <path d="M32 20L62 8v24z" fill="#FFB224" opacity=".18" />
-        </g>
-        <path d="M32 6l5 11H27z" fill="#FFB224" />
-        <path d="M26 21h12l4 33H22z" fill="none" stroke="#EDEAE0" strokeWidth="3.5" strokeLinejoin="round" />
-        <path d="M24.5 33h15M23.5 43h17" stroke="#EDEAE0" strokeWidth="3" />
-      </svg>
+      <Mark size={38} id="nav" />
       <span>walid.sayed</span>
     </a>
   );
