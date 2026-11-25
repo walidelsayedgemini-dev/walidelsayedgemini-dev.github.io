@@ -7,9 +7,10 @@ import { Hero, Nav } from "./components/Hero";
 import { Stats } from "./components/Stats";
 import { Services } from "./components/Services";
 import { Work } from "./components/Work";
-import { Stack, Timeline } from "./components/Sections";
+import { Stack } from "./components/Sections";
 import { About, Contact } from "./components/AboutContact";
 import { Journey } from "./components/Journey";
+const Cosmos = lazy(() => import("./components/Cosmos"));
 const Palette = lazy(() => import("./components/Palette").then((m) => ({ default: m.Palette })));
 import { SideDots, useFx } from "./components/Extras";
 import { usePrefersReduced } from "./lib/util";
@@ -66,6 +67,9 @@ function Shell() {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <Cosmos />
+      </Suspense>
       <div className="grain" aria-hidden />
       <Cursor />
       <ScrollProgress />
@@ -81,7 +85,6 @@ function Shell() {
         <Work />
         <Services />
         <Stack />
-        <Timeline />
         <About />
         <Journey />
         <Contact onCopied={flash} />

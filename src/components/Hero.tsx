@@ -1,19 +1,18 @@
 import { Mark } from "./Mark";
-import { hasJourney } from "../data/extra";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { extra, hasJourney } from "../data/extra";
+import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowDown, Search, Languages, Menu, X, Sun, Moon, Volume2, VolumeX } from "lucide-react";
+import { ArrowDown, Search, Languages, Menu, X, Sun, Moon, Volume2, VolumeX, Download, Mail } from "lucide-react";
 import { useTheme, useSound } from "../lib/prefs";
 import { useI18n, type Key } from "../i18n";
 import { asset, scrollToId, GithubIcon, usePrefersReduced } from "../lib/util";
+import { EMAIL } from "../data/github";
 import { gh } from "../data/github";
-const HeroCanvas = lazy(() => import("./HeroCanvas"));
 
 export const SECTIONS: { id: string; key: Key }[] = [
   { id: "work", key: "nav.work" },
   { id: "services", key: "nav.services" },
   { id: "stack", key: "nav.stack" },
-  { id: "timeline", key: "nav.timeline" },
   { id: "about", key: "nav.about" },
   ...(hasJourney ? [{ id: "journey", key: "nav.journey" as Key }] : []),
   { id: "contact", key: "nav.contact" },
@@ -71,6 +70,10 @@ export function Nav({ openPalette }: { openPalette: () => void }) {
         ))}
       </nav>
       <div className="nav-tools">
+        <a className="chip-btn cv-btn" href={asset(extra.cvUrl[lang])} target="_blank" rel="noreferrer" download>
+          <Download size={14} />
+          <span>{t("nav.cv")}</span>
+        </a>
         <button className="chip-btn" onClick={openPalette} aria-label={t("nav.search")}>
           <Search size={14} />
           <span className="lbl">{t("nav.search")}</span>
@@ -142,36 +145,6 @@ function Split({ text, delay = 0 }: { text: string; delay?: number }) {
   );
 }
 
-const ROLES = {
-  en: ["Full-stack developer", "Flutter & React builder", "Game creator", "ICT teacher"],
-  ar: ["مطوّر Full-stack", "مطوّر Flutter وReact", "صانع ألعاب", "معلّم ICT"],
-};
-
-function RoleSwap() {
-  const { lang } = useI18n();
-  const [i, setI] = useState(0);
-  const reduced = usePrefersReduced();
-  useEffect(() => {
-    if (reduced) return;
-    const id = setInterval(() => setI((x) => x + 1), 2400);
-    return () => clearInterval(id);
-  }, [reduced]);
-  const list = ROLES[lang];
-  const cur = list[i % list.length];
-  return (
-    <span className="role-swap" aria-live="off">
-      <motion.span
-        key={lang + cur}
-        initial={{ y: "100%", opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {cur}
-      </motion.span>
-    </span>
-  );
-}
-
 export function Hero({ ready }: { ready: boolean }) {
   const { t, num, lang } = useI18n();
   const d = ready ? 0.1 : 99;
@@ -179,14 +152,9 @@ export function Hero({ ready }: { ready: boolean }) {
   const fade = useTransform(scrollY, [0, 520], [1, 0]);
   const lift = useTransform(scrollY, [0, 520], [0, -70]);
   const lift2 = useTransform(scrollY, [0, 520], [0, 50]);
-  const ring = `${num(gh.repos.length)} REPOS · ${num(gh.totalCommits)} COMMITS · ALEXANDRIA · ICT TEACHER · `;
+  const ring = "FULL-STACK · MOBILE · REACT · TYPESCRIPT · FLUTTER · NODE · ";
   return (
     <section className="hero" id="top">
-      {ready && (
-        <Suspense fallback={null}>
-          <HeroCanvas />
-        </Suspense>
-      )}
       <div className="hero-fade" />
       <div className="wrap hero-grid" style={{ width: "100%" }}>
         <motion.div style={{ opacity: fade, y: lift }}>
@@ -208,7 +176,7 @@ export function Hero({ ready }: { ready: boolean }) {
             animate={ready ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.9, duration: 0.8 }}
           >
-            <span className="slash">//</span> <RoleSwap />
+            <span className="slash">//</span> <span className="role-fixed">{t("hero.role")}</span>
           </motion.div>
           <motion.p
             className="hero-intro"
@@ -227,8 +195,11 @@ export function Hero({ ready }: { ready: boolean }) {
             <a className="btn primary" href="#work" onClick={(e) => (e.preventDefault(), scrollToId("work"))}>
               {t("hero.cta1")} <ArrowDown size={16} />
             </a>
-            <a className="btn ghost" href={gh.profile.html_url} target="_blank" rel="noreferrer">
-              <GithubIcon /> {t("hero.cta2")} <ArrowUpRight size={16} className="arr" />
+            <a className="btn ghost" href={asset(extra.cvUrl[lang])} target="_blank" rel="noreferrer" download>
+              <Download size={16} /> {t("hero.cta2")}
+            </a>
+            <a className="btn text" href={`mailto:${EMAIL}`} onClick={(e) => (e.preventDefault(), scrollToId("contact"))}>
+              <Mail size={16} /> {t("hero.cta3")}
             </a>
           </motion.div>
         </motion.div>
@@ -254,15 +225,11 @@ export function Hero({ ready }: { ready: boolean }) {
           </div>
           <div className="badge-float">
             <b>{num(gh.repos.length)}</b>
-            {lang === "ar" ? "منتجات على GitHub" : "products on GitHub"}
+            {t("hero.badge")}
           </div>
         </motion.div>
         </motion.div>
       </div>
-      <div className="scroll-cue">
-        <i /> {t("hero.scroll")}
-      </div>
-      <div className="hero-hint">{t("hero.hint")}</div>
     </section>
   );
 }

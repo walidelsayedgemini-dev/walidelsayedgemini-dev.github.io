@@ -5,11 +5,11 @@ import { Mark } from "./Mark";
 
 /* ---------------- Preloader: the monogram draws itself ---------------- */
 export function Boot({ onDone, onExit }: { onDone: () => void; onExit?: () => void }) {
-  const { lang } = useI18n();
+  const { t } = useI18n();
   const [exit, setExit] = useState(false);
   useEffect(() => {
     document.body.classList.add("locked");
-    const t = window.setTimeout(() => setExit(true), 2700);
+    const t = window.setTimeout(() => setExit(true), 1500);
     const skip = () => setExit(true);
     window.addEventListener("keydown", skip);
     window.addEventListener("pointerdown", skip);
@@ -25,7 +25,7 @@ export function Boot({ onDone, onExit }: { onDone: () => void; onExit?: () => vo
     const id = window.setTimeout(() => {
       document.body.classList.remove("locked");
       onDone();
-    }, 900);
+    }, 700);
     return () => clearTimeout(id);
   }, [exit, onDone, onExit]);
   return (
@@ -33,20 +33,20 @@ export function Boot({ onDone, onExit }: { onDone: () => void; onExit?: () => vo
       className="boot"
       initial={{ opacity: 1 }}
       animate={{ opacity: exit ? 0 : 1, scale: exit ? 1.04 : 1 }}
-      transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
+      transition={{ duration: 0.7, ease: [0.65, 0, 0.35, 1] }}
       role="status"
       aria-label="Loading"
     >
       <div className="boot-halo" />
       <div className="boot-stack">
         <Mark size={120} animate id="boot" />
-        <motion.div className="boot-name" initial={{ opacity: 0, y: 14, letterSpacing: "0.5em" }} animate={{ opacity: 1, y: 0, letterSpacing: "0.34em" }} transition={{ duration: 1.1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}>
+        <motion.div className="boot-name" initial={{ opacity: 0, y: 14, letterSpacing: "0.5em" }} animate={{ opacity: 1, y: 0, letterSpacing: "0.34em" }} transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}>
           WALID SAYED
         </motion.div>
-        <motion.div className="boot-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 1.0 }}>
-          {lang === "ar" ? "مطوّر برمجيات · الإسكندرية" : "Software developer · Alexandria"}
+        <motion.div className="boot-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.55 }}>
+          {t("boot.sub")}
         </motion.div>
-        <div className="boot-line2"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2.7, ease: [0.65, 0, 0.35, 1] }} /></div>
+        <div className="boot-line2"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.5, ease: [0.65, 0, 0.35, 1] }} /></div>
       </div>
     </motion.div>
   );

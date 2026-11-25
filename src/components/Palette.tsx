@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { CornerDownLeft, Hash, Rocket, Globe, Mail, Languages } from "lucide-react";
+import { CornerDownLeft, Hash, Rocket, Mail, Languages, Download } from "lucide-react";
 import { useI18n } from "../i18n";
 import { projects, projectData } from "../data/projects";
 import { gh, EMAIL, FACEBOOK } from "../data/github";
@@ -42,7 +42,7 @@ export function Palette({ onClose, onCopied }: { onClose: () => void; onCopied: 
     out.push(
       { group: t("pal.actions"), label: t("pal.lang"), icon: <Languages />, run: () => setLang(lang === "en" ? "ar" : "en") },
       { group: t("pal.actions"), label: t("pal.gh"), icon: <GithubIcon />, run: () => window.open(gh.profile.html_url, "_blank", "noopener") },
-      ...(extra.cvUrl[lang] ? [{ group: t("pal.actions"), label: t("pal.cv"), icon: <Mail />, run: () => window.open(asset(extra.cvUrl[lang]), "_blank", "noopener") }] : []),
+      ...(extra.cvUrl[lang] ? [{ group: t("pal.actions"), label: t("pal.cv"), icon: <Download />, run: () => window.open(asset(extra.cvUrl[lang]), "_blank", "noopener") }] : []),
       ...(FACEBOOK ? [{ group: t("pal.actions"), label: t("pal.fb"), icon: <FacebookIcon />, run: () => window.open(FACEBOOK, "_blank", "noopener") }] : []),
       {
         group: t("pal.actions"),
@@ -51,7 +51,6 @@ export function Palette({ onClose, onCopied }: { onClose: () => void; onCopied: 
         icon: <Mail />,
         run: () => navigator.clipboard?.writeText(EMAIL).then(onCopied, onCopied),
       },
-      { group: t("pal.actions"), label: "Language: " + lang.toUpperCase(), icon: <Globe />, run: () => setLang(lang === "en" ? "ar" : "en") },
     );
     return out;
   }, [t, pick, lang, setLang, onCopied]);

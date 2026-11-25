@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useI18n } from "../i18n";
-import { gh, LOGIN, activeDays } from "../data/github";
-import { techCloud } from "../data/projects";
+import { gh, LOGIN } from "../data/github";
+import { techCloud, projects } from "../data/projects";
 import { useCountUp, timeAgo } from "../lib/util";
 import { Marquee } from "./Chrome";
 
@@ -58,8 +58,7 @@ function useLive(): Live | null {
 export function Stats() {
   const { t, lang, num } = useI18n();
   const live = useLive();
-  const priv = gh.repos.filter((r) => r.private).length;
-  const pub = gh.repos.length - priv;
+  const liveCount = projects.filter((p) => p.live).length;
   return (
     <>
       <Marquee items={techCloud.slice(0, 14)} />
@@ -67,7 +66,7 @@ export function Stats() {
         <div className="wrap">
           <div className="stats-head">
             <div>
-              <div className="kicker">{lang === "ar" ? "نبض GitHub" : "GitHub pulse"}</div>
+              <div className="kicker">{t("stats.kicker")}</div>
               <h2 className="h2" style={{ marginBottom: 0 }}>
                 {t("stats.title")}
               </h2>
@@ -92,10 +91,10 @@ export function Stats() {
             </div>
           </div>
           <div className="stat-grid">
-            <Stat i={0} to={gh.repos.length} label={t("stats.repos")} sub={`${num(pub)} ${lang === "ar" ? "عامة" : "public"} · ${num(priv)} ${lang === "ar" ? "خاصة" : "private"}`} />
-            <Stat i={1} to={gh.totalCommits} label={t("stats.commits")} sub={t("stats.commits.sub")} />
-            <Stat i={2} to={gh.languages.length} label={t("stats.langs")} sub={t("stats.langs.sub")} />
-            <Stat i={3} to={activeDays} label={t("stats.days")} sub={t("stats.days.sub")} />
+            <Stat i={0} to={projects.length} label={t("stats.repos")} sub={t("stats.repos.sub")} />
+            <Stat i={1} to={liveCount} label={t("stats.live")} sub={t("stats.live.sub")} />
+            <Stat i={2} to={gh.totalCommits} label={t("stats.commits")} sub={t("stats.commits.sub")} />
+            <Stat i={3} to={techCloud.length} label={t("stats.tech")} sub={t("stats.tech.sub")} />
           </div>
         </div>
       </section>

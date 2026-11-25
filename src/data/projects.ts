@@ -14,6 +14,9 @@ export interface Project {
   live?: string;
   color: string;
   contain?: boolean;
+  /** Featured case studies only */
+  role?: Bi;
+  platform?: Bi;
 }
 
 /** Everything below is taken from each repository's README, package.json / pubspec.yaml and file tree. */
@@ -33,6 +36,8 @@ export const projects: Project[] = [
     shotM: "img/shotm-linkme.webp",
     live: "https://link-me-alpha.vercel.app",
     color: "#d4b06a",
+    role: { en: "Solo full-stack: product, UI, API, database, CI and deployment", ar: "مطوّر Full-stack منفرد: المنتج والواجهة وAPI وقاعدة البيانات وCI والنشر" },
+    platform: { en: "Web app · Vercel", ar: "تطبيق ويب · Vercel" },
   },
   {
     id: "firdaws",
@@ -49,6 +54,8 @@ export const projects: Project[] = [
     shotM: "img/shotm-firdaws.webp",
     live: "https://walidelsayedgemini-dev.github.io/islamic_prayer_app/",
     color: "#d4b06a",
+    role: { en: "Solo mobile developer: Flutter UI, native Kotlin services, CI/CD", ar: "مطوّر موبايل منفرد: واجهة Flutter وخدمات Kotlin أصلية وCI/CD" },
+    platform: { en: "Android + Web (Flutter)", ar: "أندرويد + ويب (Flutter)" },
   },
   {
     id: "lastthread",
@@ -65,6 +72,8 @@ export const projects: Project[] = [
     shotM: "img/shotm-lastthread.webp",
     live: "https://walidelsayedgemini-dev.github.io/the-last-thread/",
     color: "#d4b06a",
+    role: { en: "Solo game developer: story, engine, audio, testing, packaging", ar: "مطوّر ألعاب منفرد: القصة والمحرّك والصوت والاختبار والتغليف" },
+    platform: { en: "Browser + Android (Capacitor)", ar: "المتصفح + أندرويد (Capacitor)" },
   },
   {
     id: "cheese",
@@ -147,6 +156,19 @@ export const projects: Project[] = [
 ];
 
 export const projectData = (p: Project) => repoByName(p.repo);
+export const FEATURED = ["linkme", "firdaws", "lastthread"];
+export const featured = projects.filter((p) => FEATURED.includes(p.id));
+export const others = projects.filter((p) => !FEATURED.includes(p.id));
+
+/** Skills matrix, grouped by discipline (every item appears in at least one repository). */
+export const skillGroups: { title: Bi; items: string[] }[] = [
+  { title: { en: "Languages", ar: "لغات البرمجة" }, items: ["TypeScript", "JavaScript", "Dart", "Kotlin", "Python", "HTML & CSS", "SQL"] },
+  { title: { en: "Front-end", ar: "الواجهة الأمامية" }, items: ["React", "Vite", "Tailwind CSS", "Framer Motion", "Radix UI", "Zustand", "Recharts"] },
+  { title: { en: "Back-end & data", ar: "الخادم والبيانات" }, items: ["Node.js / Express", "tRPC", "Drizzle ORM", "MySQL", "IndexedDB", "Stripe"] },
+  { title: { en: "Mobile", ar: "الموبايل" }, items: ["Flutter", "Capacitor", "PWA / Workbox", "Android (Kotlin services)"] },
+  { title: { en: "Graphics & games", ar: "الرسوميات والألعاب" }, items: ["Three.js", "Canvas 2D", "Web Audio", "SVG animation"] },
+  { title: { en: "Quality & DevOps", ar: "الجودة وDevOps" }, items: ["Vitest", "Playwright", "GitHub Actions", "Docker", "Vercel", "GitHub Pages", "Git"] },
+];
 
 /** Technologies actually found in package.json / pubspec.yaml; counts verified from those files. */
 export const techCloud: { name: string; repos?: number }[] = [

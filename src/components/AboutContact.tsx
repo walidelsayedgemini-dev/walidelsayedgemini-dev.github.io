@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Copy, Mail, Check } from "lucide-react";
+import { ArrowUpRight, Copy, Mail, Check, Download } from "lucide-react";
 import { useI18n } from "../i18n";
 import { gh, EMAIL, FACEBOOK } from "../data/github";
 import { extra } from "../data/extra";
 import { Mark } from "./Mark";
-import { asset, fmtDay, GithubIcon, FacebookIcon, scrollToId } from "../lib/util";
+import { asset, GithubIcon, FacebookIcon, scrollToId } from "../lib/util";
 
 const rise = (d = 0) => ({
   initial: { opacity: 0, y: 36 },
@@ -15,7 +15,7 @@ const rise = (d = 0) => ({
 });
 
 export function About() {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const pic = useRef<HTMLDivElement>(null);
   const tilt = (e: React.PointerEvent) => {
     if (e.pointerType === "touch" || !pic.current) return;
@@ -32,7 +32,7 @@ export function About() {
         <motion.div className="about-photo" {...rise()} onPointerMove={tilt} onPointerLeave={reset}>
           <div className="pic" ref={pic}>
             <img src={asset("img/walid.webp")} alt={p.name} loading="lazy" width={460} height={460} />
-            <div className="coords ltr">31.2001° N · 29.9187° E · Alexandria</div>
+            <div className="coords ltr">WALID SAYED · ALEXANDRIA, EGYPT</div>
           </div>
           <div className="facts">
             <div className="fact">
@@ -41,15 +41,11 @@ export function About() {
             </div>
             <div className="fact">
               <span>{t("about.school")}</span>
-              <span className="ltr">{t("about.schoolV")}</span>
-            </div>
-            <div className="fact">
-              <span>{t("about.where")}</span>
-              <span>{t("about.whereV")}</span>
+              <span>{t("about.schoolV")}</span>
             </div>
             <div className="fact">
               <span>{t("about.since")}</span>
-              <span>{fmtDay(p.created_at, lang, { month: "long", year: "numeric" })}</span>
+              <span>{t("about.sinceV")}</span>
             </div>
             <div className="fact">
               <span>{t("about.builds")}</span>
@@ -109,11 +105,11 @@ export function Contact({ onCopied }: { onCopied: () => void }) {
         <motion.h2 className="big" {...rise(0.05)}>
           {lang === "en" ? (
             <>
-              Have an idea? <span className="serif">Let's ship it.</span>
+              Have a role in mind? <span className="serif">Let's talk.</span>
             </>
           ) : (
             <>
-              عندك فكرة؟ <span className="serif">خلّينا نطلقها.</span>
+              عندك فرصة مناسبة؟ <span className="serif">لنتحدث.</span>
             </>
           )}
         </motion.h2>
@@ -141,6 +137,7 @@ export function Contact({ onCopied }: { onCopied: () => void }) {
           </a>
           {extra.cvUrl[lang] && (
             <a className="social" href={asset(extra.cvUrl[lang])} target="_blank" rel="noreferrer" download>
+              <Download />
               <span>
                 <small>CV</small>
                 {t("contact.cv")}
@@ -160,7 +157,7 @@ export function Contact({ onCopied }: { onCopied: () => void }) {
         <footer className="footer">
           <span className="foot-id">
             <Mark size={24} id="foot" />
-            <bdi className="ltr">© {new Date().getFullYear()} {gh.profile.name?.split("(")[0].trim()}</bdi> · {t("foot.built")} · <span className="ltr">{new Date(gh.generatedAt).toISOString().slice(0, 10)}</span>
+            <bdi className="ltr">© {new Date().getFullYear()} Walid Sayed</bdi> · {t("foot.built")}
           </span>
           <button onClick={() => scrollToId("top")}>{t("foot.top")}</button>
         </footer>
