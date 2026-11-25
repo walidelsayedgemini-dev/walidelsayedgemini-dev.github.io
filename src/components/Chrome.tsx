@@ -40,10 +40,10 @@ export function Boot({ onDone, onExit }: { onDone: () => void; onExit?: () => vo
       <div className="boot-halo" />
       <div className="boot-stack">
         <Mark size={150} animate id="boot" />
-        <motion.div className="boot-name" initial={{ opacity: 0, y: 14, letterSpacing: "0.5em" }} animate={{ opacity: 1, y: 0, letterSpacing: "0.34em" }} transition={{ duration: 1.1, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}>
+        <motion.div className="boot-name" initial={{ opacity: 0, y: 14, letterSpacing: "0.5em" }} animate={{ opacity: 1, y: 0, letterSpacing: "0.34em" }} transition={{ duration: 1.1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}>
           WALID SAYED
         </motion.div>
-        <motion.div className="boot-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 2.0 }}>
+        <motion.div className="boot-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 1.0 }}>
           {lang === "ar" ? "مطوّر برمجيات · الإسكندرية" : "Software developer · Alexandria"}
         </motion.div>
         <div className="boot-line2"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2.7, ease: [0.65, 0, 0.35, 1] }} /></div>

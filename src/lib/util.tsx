@@ -74,10 +74,19 @@ export const scrollToId = (id: string) => {
   const el = document.getElementById(id);
   if (!el) return;
   const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element | number, o?: object) => void } }).__lenis;
-  if (lenis) lenis.scrollTo(el, { offset: id === "work" ? 0 : -10, duration: 1.4 });
-  else el.scrollIntoView({ behavior: "smooth" });
+  const offset = id === "work" ? 0 : -10;
+  if (lenis) {
+    // Sections below the fold render lazily (content-visibility), so heights can shift mid-scroll: re-aim once it lands.
+    lenis.scrollTo(el, {
+      offset,
+      duration: 1.4,
+      onComplete: () => {
+        const miss = el.getBoundingClientRect().top + offset;
+        if (Math.abs(miss) > 6) lenis.scrollTo(el, { offset, duration: 0.5 });
+      },
+    });
+  } else el.scrollIntoView({ behavior: "smooth" });
 };
-
 export function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>

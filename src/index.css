@@ -2551,3 +2551,6 @@ html[data-theme="light"] .hero, html[data-theme="light"] .boot, html[data-theme=
 .mark-anim { filter: drop-shadow(0 0 26px rgba(212,176,106,.28)); }
 .logo .mark { transition: transform .5s cubic-bezier(.22,1,.36,1), filter .5s; }
 html[data-theme="light"] .nav.solid .mark img { filter: none; }
+
+/* ===== Perf: skip rendering work for below-the-fold sections until they approach the viewport ===== */
+.services, .stack, .timeline, .about, .contact { content-visibility: auto; contain-intrinsic-size: auto 900px; }
